@@ -1,14 +1,14 @@
 <?php
-if( empty( $_SESSION['iduser'] ) ){
+if (empty($_SESSION['iduser'])) {
 	$_SESSION['err'] = '<strong>ERROR!</strong> Anda harus login terlebih dahulu.';
 	header('Location: ./');
 	die();
 } else {
-	if(isset($_REQUEST['submit'])){
+	if (isset($_REQUEST['submit'])) {
 		$id = $_REQUEST['id'];
-		$sql = mysql_query("DELETE FROM user WHERE iduser='$id'");
-		
-		if($sql > 0){
+		$sql = mysqli_query($conn, "DELETE FROM user WHERE iduser='$id'");
+
+		if ($sql > 0) {
 			header('Location: admin.php?hlm=master');
 			die();
 		} else {
@@ -17,13 +17,12 @@ if( empty( $_SESSION['iduser'] ) ){
 	} else {
 		//tampilkan konfirmasi hapus user
 		$id = $_REQUEST['id'];
-		$sql = mysql_query("SELECT username,fullname FROM user WHERE iduser='$id'");
-		list($username,$fullname) = mysql_fetch_array($sql);
-		
-		echo '<div class="alert alert-danger">Yakin akan menghapus User: <strong>'.$fullname.' ('.$username.')</strong> ?<br><br>';
-		echo '<a href="./admin.php?hlm=master&aksi=hapus&submit=ya&id='.$id.'" class="btn btn-sm btn-success">Ya, Hapus</a> ';
+		$sql = mysqli_query($conn, "SELECT username,fullname FROM user WHERE iduser='$id'");
+		list($username, $fullname) = mysqli_fetch_array($sql);
+
+		echo '<div class="alert alert-danger">Yakin akan menghapus User: <strong>' . $fullname . ' (' . $username . ')</strong> ?<br><br>';
+		echo '<a href="./admin.php?hlm=master&aksi=hapus&submit=ya&id=' . $id . '" class="btn btn-sm btn-success">Ya, Hapus</a> ';
 		echo '<a href="./admin.php?hlm=master" class="btn btn-sm btn-default">Tidak</a>';
 		echo '</div>';
 	}
 }
-?>

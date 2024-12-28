@@ -1,14 +1,14 @@
 <?php
-if( empty( $_SESSION['iduser'] ) ){
+if (empty($_SESSION['iduser'])) {
 	//session_destroy();
 	$_SESSION['err'] = '<strong>ERROR!</strong> Anda harus login terlebih dahulu.';
 	header('Location: ./');
 	die();
 } else {
-	if( isset( $_REQUEST['submit'] )){
+	if (isset($_REQUEST['submit'])) {
 		$idprodi = $_REQUEST['idprodi'];
-		$sql = mysql_query("DELETE FROM prodi WHERE idprodi='$idprodi'");
-		if($sql > 0){
+		$sql = mysqli_query($conn, "DELETE FROM prodi WHERE idprodi='$idprodi'");
+		if ($sql > 0) {
 			header('Location: ./admin.php?hlm=master&sub=jurusan');
 			die();
 		} else {
@@ -16,13 +16,12 @@ if( empty( $_SESSION['iduser'] ) ){
 		}
 	} else {
 		$idprodi = $_REQUEST['idprodi'];
-		$sql = mysql_query("SELECT * FROM prodi WHERE idprodi='$idprodi'");
-		list($idprodi,$prodi) = mysql_fetch_array($sql);
-		
-		echo '<div class="alert alert-danger">Yakin akan menghapus Program Studi: <strong>'.$prodi.' ('.$idprodi.')</strong><br><br>';
-		echo '<a href="./admin.php?hlm=master&sub=jurusan&aksi=hapus&submit=ya&idprodi='.$idprodi.'" class="btn btn-sm btn-success">Ya, Hapus</a> ';
+		$sql = mysqli_query($conn, "SELECT * FROM prodi WHERE idprodi='$idprodi'");
+		list($idprodi, $prodi) = mysqli_fetch_array($sql);
+
+		echo '<div class="alert alert-danger">Yakin akan menghapus Program Studi: <strong>' . $prodi . ' (' . $idprodi . ')</strong><br><br>';
+		echo '<a href="./admin.php?hlm=master&sub=jurusan&aksi=hapus&submit=ya&idprodi=' . $idprodi . '" class="btn btn-sm btn-success">Ya, Hapus</a> ';
 		echo '<a href="./admin.php?hlm=master&sub=jurusan" class="btn btn-sm btn-default">Tidak</a>';
 		echo '</div>';
 	}
 }
-?>
